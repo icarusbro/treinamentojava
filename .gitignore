@@ -1,0 +1,41 @@
+# directories
+treinamento-backend/.settings/
+treinamento-backend/.target/
+treinamento-backend/.idea/
+treinamento-backend/.worksheet/
+treinamento-backend/bin/
+treinamento-backend/build/
+treinamento-backend/dist/
+treinamento-backend/logs/
+treinamento-backend/node_modules/
+treinamento-backend/out/
+treinamento-backend/target/
+treinamento-backend/tmp/
+
+# files
+treinamento-backend/*.iml
+treinamento-backend/*/.DS_Store
+treinamento-backend/#*
+treinamento-backend/.cache
+treinamento-backend/.classpath
+treinamento-backend/.DS_Store
+treinamento-backend/.history
+treinamento-backend/.idea
+treinamento-backend/.idea_modules
+treinamento-backend/.project
+treinamento-backend/RUNNING_PID
+treinamento-backend/
+
+# dependencies
+treinamento-front/node_modules
+
+# testing
+treinamento-front/coverage
+
+# production
+treinamento-front/build
+
+# misc
+treinamento-front/.DS_Store
+treinamento-front/.env
+treinamento-front/npm-debug.log

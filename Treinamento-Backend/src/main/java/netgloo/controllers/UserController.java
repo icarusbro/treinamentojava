@@ -28,7 +28,7 @@ public class UserController {
     try {
       User user = new User(email, name);
       userDao.create(user);
-    }
+  }
     catch (Exception ex) {
       return "Error creating the user: " + ex.toString();
     }
