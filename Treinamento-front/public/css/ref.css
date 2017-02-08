@@ -1,37 +1,37 @@
-.panel-mecnifico{
+.panel-app{
   border-color: #000000;
 }
 
-.panel-mecnifico > .panel-heading {
+.panel-app > .panel-heading {
   border-color: #000000;
   background-color: #222222;
   color: #ffffff;
 }
 
-.btn-mecnifico{
+.btn-app{
   color: #ffffff;
   border-color: #000000;
   background-color: #222222;
 }
 
-.btn-mecnifico:hover,
-.btn-mecnifico:focus {
+.btn-app:hover,
+.btn-app:focus {
   color: #dddddd;
   background-color: #000000;
   background-position: 0 -15px;
 }
 
-.btn-mecnifico:active,
-.btn-mecnifico.active {
+.btn-app:active,
+.btn-app.active {
   background-color: #000000;
   border-color: #222222;
 }
 
-.nav-mecnifico > li > a {
+.nav-app > li > a {
    color: #777777;
 }
 
-.nav-pills.nav-mecnifico > li.active> a {
+.nav-pills.nav-app > li.active> a {
   background-color: #333333;
 }
 

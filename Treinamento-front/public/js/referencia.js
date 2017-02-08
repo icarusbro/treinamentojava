@@ -51,7 +51,7 @@ var referencia = {
 var callbackSucessoRef = function(data){
     var result = '';
     data[0].forEach(function (pesquisa) {
-        result += '<li><div class="panel panel-mecnifico"><div class="panel-heading">Referencia</div><div class="panel-body"><div class="row"><div class="form-group"><div class="col-lg-10"><label>Livro</label><samp id="livros">   '+pesquisa.livro.nome+'</samp></div>  </br>  <div class="col-lg-5"><label>Capitulo</label><samp id="capitulo">   '+pesquisa.capitulo+'</samp></div><div class="col-lg-5"><label>Pagina</label><samp id="pagina">   '+pesquisa.pagina+'</samp></div>  </br>  <div class="col-lg-10"><label>Assunto</label><samp id="assunto">   '+pesquisa.assunto+'</samp></div>  </br>  </div></div><div class="row"><div class="col-lg-12"><label>Observação</label><samp id="observacao">    '+pesquisa.observacao+'</samp></div></div></div></div></li>';
+        result += '<li><div class="panel panel-app"><div class="panel-heading">Referencia</div><div class="panel-body"><div class="row"><div class="form-group"><div class="col-lg-10"><label>Livro</label><samp id="livros">   '+pesquisa.livro.nome+'</samp></div>  </br>  <div class="col-lg-5"><label>Capitulo</label><samp id="capitulo">   '+pesquisa.capitulo+'</samp></div><div class="col-lg-5"><label>Pagina</label><samp id="pagina">   '+pesquisa.pagina+'</samp></div>  </br>  <div class="col-lg-10"><label>Assunto</label><samp id="assunto">   '+pesquisa.assunto+'</samp></div>  </br>  </div></div><div class="row"><div class="col-lg-12"><label>Observação</label><samp id="observacao">    '+pesquisa.observacao+'</samp></div></div></div></div></li>';
     });
     $('#ListaResult').append(result);
     
