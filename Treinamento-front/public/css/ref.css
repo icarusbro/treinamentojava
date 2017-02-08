@@ -1,0 +1,55 @@
+.panel-mecnifico{
+  border-color: #000000;
+}
+
+.panel-mecnifico > .panel-heading {
+  border-color: #000000;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.btn-mecnifico{
+  color: #ffffff;
+  border-color: #000000;
+  background-color: #222222;
+}
+
+.btn-mecnifico:hover,
+.btn-mecnifico:focus {
+  color: #dddddd;
+  background-color: #000000;
+  background-position: 0 -15px;
+}
+
+.btn-mecnifico:active,
+.btn-mecnifico.active {
+  background-color: #000000;
+  border-color: #222222;
+}
+
+.nav-mecnifico > li > a {
+   color: #777777;
+}
+
+.nav-pills.nav-mecnifico > li.active> a {
+  background-color: #333333;
+}
+
+.central-nav {
+  list-style-type: none;
+  width: 100%;
+  padding-left: 0px;
+}
+
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 10px;
+}
+
+img {
+    width: 100px;
+}

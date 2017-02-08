@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/ref.css" rel="stylesheet"> 
+
+<% include ./header %>
+<body ng-app="">
+    <div class="container">
+        <div class="panel panel-mecnifico">
+            <div class="panel-heading">Cadastro de livros</div>
+                <div class="panel-body">
+                    <div class="row">
+                    <form role="form">
+                        <div class="form-group">
+                            <div class="col-lg-5">
+                                <label>Nome do Livro</label>
+                                <input id="nomeLivro" class="form-control" maxlength="50">
+                            </div>
+                            <div class="col-lg-5">
+                                <label>Autor</label>
+                                <input id="nomeAutor" class="form-control" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                <br>
+                <button type="button" class="btn btn-lg btn-default" id="consultar" onclick="livro.cadastrarLivro()">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="result">
+        </div>
+    </div>
+</body>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/livro.js"></script>
+</html>

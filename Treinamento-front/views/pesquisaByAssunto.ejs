@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/ref.css" rel="stylesheet"> 
+
+<% include ./header %>
+<body ng-app="">
+    <div class="container">
+        <div class="panel panel-mecnifico">
+            <div class="panel-heading">Pesquisa de Referencias por Assunto</div>
+                <div class="panel-body">
+                    <div class="row">
+                    <form role="form">
+                        <div class="form-group">
+                            <div class="col-lg-5">
+                                <label>Asunto</label>
+                                    <input id="assunto" class="form-control" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                <br>
+                <button type="button" class="btn btn-lg btn-default" id="consultar" onclick="referencia.pesquisaRefByAssunto()">Pesquisar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <ul id="ListaResult" class="central-nav">
+        </ul>   
+    </div>
+    
+</body>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/referencia.js"></script>
+    <script src="js/livro.js"></script>
+</html>
