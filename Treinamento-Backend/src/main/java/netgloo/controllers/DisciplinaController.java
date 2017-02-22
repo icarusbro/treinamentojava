@@ -4,13 +4,18 @@ package netgloo.controllers;
  * Created by estagiocit on 17/02/2017.
  */
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import netgloo.Dao.DisciplinaDao;
+import netgloo.Excecoes.AlunoDisciplinaInvalidoException;
+import netgloo.Excecoes.AlunoInvalidoException;
 import netgloo.Excecoes.DisciplinaInvalidaException;
 import netgloo.Excecoes.DisciplinaJaCadastrada;
 import netgloo.Service.DisciplinaService;
 import netgloo.models.Disciplina;
 import netgloo.models.DisciplinaSearchForm;
+import netgloo.models.NotasDisciplina;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +54,8 @@ public class DisciplinaController {
             disciplinaService.delete(id);
         } catch (DisciplinaInvalidaException e) {
             return e.getMessage();
+        }catch (DataIntegrityViolationException e){
+            return "Disciplina possui associações e não pode ser deletado!";
         }
         return "Ok!";
     }
@@ -70,9 +77,31 @@ public class DisciplinaController {
         return disciplinaService.search(disciplinaSearchForm);
     }
 
+    @RequestMapping(value="/salvarNotas")
+    @ResponseBody
+    public String salvarNotas(@RequestBody NotasDisciplina notasDisciplina){
+        try {
+            disciplinaService.salvarNotas(notasDisciplina);
+        } catch (AlunoInvalidoException e) {
+            return e.getMessage();
+        } catch (DisciplinaInvalidaException e) {
+            return e.getMessage();
+        } catch (AlunoDisciplinaInvalidoException e) {
+            return e.getMessage();
+        }
+        return "Ok!";
+    }
 
-
-
+    @RequestMapping(value="/desvincular")
+    @ResponseBody
+    public String desvincular(Long idDisciplina) {
+        try {
+            disciplinaService.desvincular(idDisciplina);
+            return "OK";
+        } catch (DisciplinaInvalidaException e) {
+            return e.getMessage();
+        }
+    }
 
 
 

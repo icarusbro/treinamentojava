@@ -1,16 +1,21 @@
 package netgloo.Service;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import netgloo.Dao.AlunoDao;
 import netgloo.Dao.AlunoDisciplinaDao;
 import netgloo.Dao.DisciplinaDao;
 import netgloo.Dao.EnderecoDao;
 import netgloo.Excecoes.*;
 import netgloo.models.*;
+import netgloo.util.EmailUtils;
 import netgloo.util.Utils;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -91,7 +96,7 @@ public class AlunoService {
                 alunoUpdateForm.getUf() != null;
     }
 
-    public boolean delete(Long id) throws AlunoInvalidoException {
+    public boolean delete(Long id) throws AlunoInvalidoException,DataIntegrityViolationException {
         Aluno aluno = alunoDao.getById(id);
         if(aluno != null){
             if(aluno.getIdEndereco() != null){
@@ -100,7 +105,6 @@ public class AlunoService {
             alunoDao.delete(aluno);
             return true;
         } else{
-
             throw new AlunoInvalidoException("Aluno não existe");
         }
     }
@@ -108,7 +112,6 @@ public class AlunoService {
     public boolean update(AlunoUpdateForm alunoUpdateForm) throws AlunoInvalidoException, EnderecoInvalidoException {
 
         if(alunoDao.getById(alunoUpdateForm.getIdAluno()) == null){
-
             throw new AlunoInvalidoException("Cpf não encontrado");
         }
 
@@ -144,10 +147,8 @@ public class AlunoService {
                         enderecoDao.update(endereco);
                     }
                 }else{
-
                     throw new EnderecoInvalidoException("Endereço invalido");
                 }
-
             }else{
                 if(alunoBase.getIdEndereco() != null){
                     enderecoDao.delete(alunoBase.getIdEndereco());
@@ -171,7 +172,7 @@ public class AlunoService {
         return alunoDao.search(nome, dataNascimento, sexo, alunoSearchForm);
     }
 
-    public void matricular(AlunoDisciplinaKey alunoKey) throws AlunoNaoExisteExeption, DisciplinaNaoExisteExeption {
+    public boolean matricular(AlunoDisciplinaKey alunoKey) throws AlunoNaoExisteExeption, DisciplinaNaoExisteExeption, AlunoInvalidoException {
 
         if(alunoKey.isValid()){
 
@@ -191,8 +192,9 @@ public class AlunoService {
             alunoDisciplina.setDisciplina(disciplina);
 
             alunoDisciplinaDao.create(alunoDisciplina);
-
-
+            return true;
+        }else{
+            throw new AlunoInvalidoException("Dados invalidos");
         }
 
     }
@@ -215,15 +217,43 @@ public class AlunoService {
 
     public boolean desmatricular(AlunoDisciplinaKey alunoDisciplinaKey) throws DisciplinaInvalidaException, MatriculaNaoExisteExeption {
         if(!alunoDisciplinaKey.isValid())
-            throw new DisciplinaInvalidaException("Aluno nao matriculado na disciplina");
-        AlunoDisciplina alunoDisciplina = alunoDisciplinaDao.getByAlunoDisciplina(alunoDisciplinaKey);
+            throw new DisciplinaInvalidaException("Dados invalidos");
+        AlunoDisciplina alunoDisciplina = alunoDisciplinaDao.getByAlunoDisciplina(alunoDisciplinaKey.getIdAluno(), alunoDisciplinaKey.getIdDisciplina());
 
         if(alunoDisciplina != null){
-
             alunoDisciplinaDao.delete(alunoDisciplina);
             return true;
         }
         throw new MatriculaNaoExisteExeption("Matricula informada não existe") ;
 
+    }
+
+    public String enviarNota(Long idAluno) throws AlunoInvalidoException {
+        if(idAluno == null)
+            throw new AlunoInvalidoException("Dados invalidos");
+
+        Aluno aluno = alunoDao.getById(idAluno);
+        if(aluno == null)
+            throw new AlunoInvalidoException("Aluno nao existe");
+
+        List<AlunoDisciplina> alunoDisciplinaList = alunoDisciplinaDao.getByAluno(aluno.getIdAluno());
+
+        HashMap<String, List<String>> mapa = new HashMap<>();
+
+        StringBuilder sb = new StringBuilder();
+        for(AlunoDisciplina d : alunoDisciplinaList) {
+            if (d.getNota() == null){
+                continue;
+            }
+            sb.append("Nome da Matéria: " + d.getDisciplina().getNome() + " - Nota: " + d.getNota()+ "\n");
+        }
+
+        if(sb.toString().isEmpty()){
+            return "";
+        }else{
+            //EmailUtils emailUtils = new EmailUtils();
+            //emailUtils.sendMail("treinamentojava2@gmail.com", sb.toString());
+            return sb.toString();
+        }
     }
 }

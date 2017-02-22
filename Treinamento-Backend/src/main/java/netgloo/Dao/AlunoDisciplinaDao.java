@@ -31,12 +31,12 @@ public class AlunoDisciplinaDao {
         return entityManager.createQuery("from AlunoDisciplina where idAluno = :id").setParameter("id", id).getResultList();
     }
 
-    public AlunoDisciplina getByAlunoDisciplina(AlunoDisciplinaKey alunoDisciplinaKey) {
+    public AlunoDisciplina getByAlunoDisciplina(Long idAluno, Long idDisciplina) {
 
         try {
             return (AlunoDisciplina) entityManager.createQuery("FROM AlunoDisciplina WHERE idAluno = :idAluno and idDisciplina = :idDisciplina")
-                    .setParameter("idAluno", alunoDisciplinaKey.getIdAluno())
-                    .setParameter("idDisciplina", alunoDisciplinaKey.getIdDisciplina())
+                    .setParameter("idAluno", idAluno)
+                    .setParameter("idDisciplina", idDisciplina)
                     .getSingleResult();
         }catch(Exception e){
             return null;
@@ -48,6 +48,21 @@ public class AlunoDisciplinaDao {
     public void delete(AlunoDisciplina alunoDisciplina) {
 
         entityManager.remove(alunoDisciplina);
+
+    }
+
+    public void update(AlunoDisciplina alunoDisciplina) {
+        entityManager.merge(alunoDisciplina);
+    }
+
+    public List<AlunoDisciplina> getByDisciplina(Long idDisciplina) {
+        return entityManager.createQuery("from AlunoDisciplina where idDisciplina = :id").setParameter("id", idDisciplina).getResultList();
+    }
+
+    public void removeAll(List<AlunoDisciplina> alunoDisciplinaList) {
+        for(AlunoDisciplina alunoDisciplina : alunoDisciplinaList){
+            entityManager.remove(alunoDisciplina);
+        }
 
     }
 }

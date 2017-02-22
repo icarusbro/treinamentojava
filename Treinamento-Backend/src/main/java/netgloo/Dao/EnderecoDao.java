@@ -26,7 +26,6 @@ public class EnderecoDao {
         return;
     }
 
-
     public void delete(Long idEndereco) {
         Endereco endereco = this.getById(idEndereco);
 

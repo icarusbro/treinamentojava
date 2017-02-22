@@ -5,6 +5,7 @@ import netgloo.Excecoes.*;
 import netgloo.Service.AlunoService;
 import netgloo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,8 @@ public class AlunoController {
             }
         } catch (AlunoInvalidoException e) {
             return e.getMessage();
+        }catch (DataIntegrityViolationException e){
+            return "Aluno possui associação com disciplina, e não pode ser deletado.";
         }
         return "Error!";
     }
@@ -78,7 +81,9 @@ public class AlunoController {
             return e.getMessage();
         } catch (DisciplinaNaoExisteExeption e) {
             return e.getMessage();
-        } catch (Exception e){
+        } catch (AlunoInvalidoException e){
+            return e.getMessage();
+        }catch (Exception e){
             return "Ocorreu um erro SQL" + e.getMessage();
         }
     }
@@ -101,6 +106,16 @@ public class AlunoController {
             return  e.getMessage();
         } catch (MatriculaNaoExisteExeption e) {
             return  e.getMessage();
+        }
+    }
+
+    @RequestMapping(value="/enviarNota")
+    @ResponseBody
+    public String enviarNota(Long idAluno){
+        try {
+            return servico.enviarNota(idAluno);
+        } catch (AlunoInvalidoException e) {
+            return e.getMessage();
         }
     }
 }

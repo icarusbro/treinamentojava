@@ -13,7 +13,7 @@ import java.util.Date;
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long idProfessor;
 
     @NotNull
     private Long cpf;
@@ -43,11 +43,11 @@ public class Professor {
     }
 
     public Long getId() {
-        return id;
+        return idProfessor;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idProfessor = id;
     }
 
     public String getNome() {
@@ -101,7 +101,7 @@ public class Professor {
     public Professor(){}
 
     public Professor(Long id) {
-        this.id = id;
+        this.idProfessor = id;
     }
 
     public Long getCpf() {

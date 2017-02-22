@@ -1,11 +1,17 @@
 package netgloo.Service;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import netgloo.Dao.AlunoDao;
+import netgloo.Dao.AlunoDisciplinaDao;
 import netgloo.Dao.DisciplinaDao;
+import netgloo.Dao.ProfessorDisciplinaDao;
+import netgloo.Excecoes.AlunoDisciplinaInvalidoException;
+import netgloo.Excecoes.AlunoInvalidoException;
 import netgloo.Excecoes.DisciplinaInvalidaException;
 import netgloo.Excecoes.DisciplinaJaCadastrada;
-import netgloo.models.Disciplina;
-import netgloo.models.DisciplinaSearchForm;
+import netgloo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +25,15 @@ public class DisciplinaService {
 
     @Autowired
     DisciplinaDao disciplinaDao;
+
+    @Autowired
+    AlunoDao alunoDao;
+
+    @Autowired
+    AlunoDisciplinaDao alunoDisciplinaDao;
+
+    @Autowired
+    ProfessorDisciplinaDao professorDisciplinaDao;
 
     public boolean create(Disciplina disciplina) throws DisciplinaInvalidaException, DisciplinaJaCadastrada {
         List<Disciplina> disciplinas=disciplinaDao.getByProperty("codigo", disciplina.getCodigo());
@@ -34,7 +49,7 @@ public class DisciplinaService {
         }
     }
 
-    public boolean delete(Long idDisciplina) throws DisciplinaInvalidaException {
+    public boolean delete(Long idDisciplina) throws DisciplinaInvalidaException,DataIntegrityViolationException {
 
         Disciplina disciplina = disciplinaDao.getById(idDisciplina);
 
@@ -68,5 +83,42 @@ public class DisciplinaService {
                 !disciplinaSearchForm.getCodigo().isEmpty();
 
         return disciplinaDao.search(nome, codigo, disciplinaSearchForm);
+    }
+
+    public void salvarNotas(NotasDisciplina notasDisciplina) throws AlunoInvalidoException, DisciplinaInvalidaException, AlunoDisciplinaInvalidoException {
+        if(notasDisciplina.isValid()){
+            if(alunoDao.getById(notasDisciplina.getIdAluno()) == null){
+                throw new AlunoInvalidoException("Aluno nao existe");
+            }
+            if(disciplinaDao.getById(notasDisciplina.getIdDisciplina()) == null){
+                throw new DisciplinaInvalidaException("Disciplina nao existe");
+            }
+            AlunoDisciplina alunoDisciplina = alunoDisciplinaDao.getByAlunoDisciplina(notasDisciplina.getIdAluno(), notasDisciplina.getIdDisciplina());
+            if(alunoDisciplina == null){
+                throw new AlunoDisciplinaInvalidoException("Aluno não cadastrado nesta disciplina.");
+            }
+
+            alunoDisciplina.setNota(notasDisciplina.getNota());
+            alunoDisciplinaDao.update(alunoDisciplina);
+
+
+        } else {
+            throw new AlunoDisciplinaInvalidoException("Dados inválidos");
+        }
+    }
+
+    public void desvincular(Long idDisciplina) throws DisciplinaInvalidaException {
+        if (idDisciplina == null)
+            throw new DisciplinaInvalidaException("Disciplina inválida");
+        if(disciplinaDao.getById(idDisciplina) == null)
+            throw new DisciplinaInvalidaException("Disciplina inválida");
+
+        List<AlunoDisciplina> alunoDisciplinaList = alunoDisciplinaDao.getByDisciplina(idDisciplina);
+        alunoDisciplinaDao.removeAll(alunoDisciplinaList);
+
+
+        List<ProfessorDisciplina> professorDisciplinaList = professorDisciplinaDao.getByDisciplina(idDisciplina);
+        professorDisciplinaDao.removeAll(professorDisciplinaList);
+
     }
 }
