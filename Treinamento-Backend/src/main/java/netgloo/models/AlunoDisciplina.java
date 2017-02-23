@@ -23,6 +23,10 @@ public class AlunoDisciplina implements Serializable{
     public AlunoDisciplina() {
     }
 
+    public AlunoDisciplina(Disciplina disciplina, Long nota) {
+        this.disciplina = disciplina;
+        this.nota = nota;
+    }
 
     public Long getNota() {
         return nota;

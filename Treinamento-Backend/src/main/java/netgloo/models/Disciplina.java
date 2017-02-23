@@ -35,6 +35,10 @@ public class Disciplina implements Serializable {
     public Disciplina() {
     }
 
+    public Disciplina(String nome) {
+        this.nome = nome;
+    }
+
     public Long getIdDisciplina() {
         return idDisciplina;
     }

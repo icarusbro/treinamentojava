@@ -80,6 +80,8 @@ public class ProfessorController {
             return e.getMessage();
         } catch (ProfessorNaoExisteException e) {
             return e.getMessage();
+        } catch (ProfessorInvalidoException e) {
+            return e.getMessage();
         }
     }
 
