@@ -172,7 +172,7 @@ public class AlunoService {
         return alunoDao.search(nome, dataNascimento, sexo, alunoSearchForm);
     }
 
-    public boolean matricular(AlunoDisciplinaKey alunoKey) throws AlunoNaoExisteExeption, DisciplinaNaoExisteExeption, AlunoInvalidoException {
+    public boolean matricular(AlunoDisciplinaKey alunoKey) throws AlunoNaoExisteExeption, DisciplinaNaoExisteExeption, AlunoInvalidoException, DadosInvalidaException {
 
         if(alunoKey.isValid()){
 
@@ -194,7 +194,7 @@ public class AlunoService {
             alunoDisciplinaDao.create(alunoDisciplina);
             return true;
         }else{
-            throw new AlunoInvalidoException("Dados invalidos");
+            throw new DadosInvalidaException("Dados invalidos");
         }
 
     }
@@ -215,9 +215,9 @@ public class AlunoService {
 
     }
 
-    public boolean desmatricular(AlunoDisciplinaKey alunoDisciplinaKey) throws DisciplinaInvalidaException, MatriculaNaoExisteExeption {
+    public boolean desmatricular(AlunoDisciplinaKey alunoDisciplinaKey) throws DisciplinaInvalidaException, MatriculaNaoExisteExeption, DadosInvalidaException {
         if(!alunoDisciplinaKey.isValid())
-            throw new DisciplinaInvalidaException("Dados invalidos");
+            throw new DadosInvalidaException("Dados invalidos");
         AlunoDisciplina alunoDisciplina = alunoDisciplinaDao.getByAlunoDisciplina(alunoDisciplinaKey.getIdAluno(), alunoDisciplinaKey.getIdDisciplina());
 
         if(alunoDisciplina != null){
@@ -228,9 +228,9 @@ public class AlunoService {
 
     }
 
-    public String enviarNota(Long idAluno) throws AlunoInvalidoException {
+    public String enviarNota(Long idAluno) throws AlunoInvalidoException, DadosInvalidaException {
         if(idAluno == null)
-            throw new AlunoInvalidoException("Dados invalidos");
+            throw new DadosInvalidaException("Dados invalidos");
 
         Aluno aluno = alunoDao.getById(idAluno);
         if(aluno == null)

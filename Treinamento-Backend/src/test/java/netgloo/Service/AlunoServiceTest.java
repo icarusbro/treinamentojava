@@ -451,7 +451,7 @@ public class AlunoServiceTest {
 
     }
 
-    @Test(expected = AlunoInvalidoException.class)
+    @Test(expected = DadosInvalidaException.class)
     public void dadosInvalidos() throws Exception{
 
         AlunoDisciplinaKey alunoDisciplinaKey = new AlunoDisciplinaKey();
@@ -489,7 +489,7 @@ public class AlunoServiceTest {
         Assert.fail();
     }
 
-    @Test (expected = DisciplinaInvalidaException.class)
+    @Test (expected = DadosInvalidaException.class)
     public void desmatricularDadosInvalidos() throws Exception{
         AlunoDisciplinaKey alunoDisciplinaKey = new AlunoDisciplinaKey();
         alunoDisciplinaKey.setIdAluno(1l);
@@ -518,7 +518,7 @@ public class AlunoServiceTest {
         Assert.assertEquals("Nome da Matéria: " + "Teste - Nota: 8\n", alunoService.enviarNota(1l));
     }
 
-    @Test(expected = AlunoInvalidoException.class)
+    @Test(expected = DadosInvalidaException.class)
     public void enviarNotaDadosInvalidos() throws Exception{
 
         alunoService.enviarNota(null);

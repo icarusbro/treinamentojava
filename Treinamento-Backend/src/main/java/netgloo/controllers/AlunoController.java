@@ -106,6 +106,8 @@ public class AlunoController {
             return  e.getMessage();
         } catch (MatriculaNaoExisteExeption e) {
             return  e.getMessage();
+        } catch (DadosInvalidaException e) {
+            return  e.getMessage();
         }
     }
 
@@ -116,6 +118,8 @@ public class AlunoController {
             return servico.enviarNota(idAluno);
         } catch (AlunoInvalidoException e) {
             return e.getMessage();
+        } catch (DadosInvalidaException e) {
+            return  e.getMessage();
         }
     }
 }

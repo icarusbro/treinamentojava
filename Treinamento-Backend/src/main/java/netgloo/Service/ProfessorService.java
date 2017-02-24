@@ -163,7 +163,7 @@ public class ProfessorService {
         return true;
     }
 
-    public void matricular(ProfessorDisciplinaKey professorDisciplinaKey) throws DisciplinaNaoExisteExeption, ProfessorNaoExisteException, ProfessorInvalidoException {
+    public boolean matricular(ProfessorDisciplinaKey professorDisciplinaKey) throws DisciplinaNaoExisteExeption, ProfessorNaoExisteException, ProfessorInvalidoException, DadosInvalidaException {
 
         if(professorDisciplinaKey.isValid()){
             Professor professor = professorDao.getById(professorDisciplinaKey.getIdProfessor());
@@ -181,17 +181,17 @@ public class ProfessorService {
             professorDisciplina.setDisciplina(disciplina);
 
             professorDisciplinaDao.create(professorDisciplina);
-
+            return true;
 
         } else {
-            throw new ProfessorInvalidoException("Dados Inválidos");
+            throw new DadosInvalidaException("Dados Inválidos");
         }
 
     }
 
-    public boolean desmatricular(ProfessorDisciplinaKey professorDisciplinaKey) throws DisciplinaInvalidaException, MatriculaNaoExisteExeption {
+    public boolean desmatricular(ProfessorDisciplinaKey professorDisciplinaKey) throws DisciplinaInvalidaException, MatriculaNaoExisteExeption, DadosInvalidaException {
         if(!professorDisciplinaKey.isValid())
-            throw new DisciplinaInvalidaException("Dados Inválidos");
+            throw new DadosInvalidaException("Dados Inválidos");
 
         ProfessorDisciplina professorDisciplina = professorDisciplinaDao.getByProfessorDisciplina(professorDisciplinaKey);
 

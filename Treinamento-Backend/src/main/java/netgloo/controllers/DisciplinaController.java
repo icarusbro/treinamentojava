@@ -6,10 +6,7 @@ package netgloo.controllers;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import netgloo.Dao.DisciplinaDao;
-import netgloo.Excecoes.AlunoDisciplinaInvalidoException;
-import netgloo.Excecoes.AlunoInvalidoException;
-import netgloo.Excecoes.DisciplinaInvalidaException;
-import netgloo.Excecoes.DisciplinaJaCadastrada;
+import netgloo.Excecoes.*;
 import netgloo.Service.DisciplinaService;
 import netgloo.models.Disciplina;
 import netgloo.models.DisciplinaSearchForm;
@@ -88,6 +85,8 @@ public class DisciplinaController {
             return e.getMessage();
         } catch (AlunoDisciplinaInvalidoException e) {
             return e.getMessage();
+        } catch (DadosInvalidaException e) {
+            return  e.getMessage();
         }
         return "Ok!";
     }

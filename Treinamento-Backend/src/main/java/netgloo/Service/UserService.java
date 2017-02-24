@@ -46,7 +46,6 @@ public class UserService {
         User checkUser = userDao.getById(user.getId());
 
         if (checkUser != null) {
-
             userDao.update(user);
             return true;
         } else {

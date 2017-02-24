@@ -5,10 +5,7 @@ import netgloo.Dao.AlunoDao;
 import netgloo.Dao.AlunoDisciplinaDao;
 import netgloo.Dao.DisciplinaDao;
 import netgloo.Dao.ProfessorDisciplinaDao;
-import netgloo.Excecoes.AlunoDisciplinaInvalidoException;
-import netgloo.Excecoes.AlunoInvalidoException;
-import netgloo.Excecoes.DisciplinaInvalidaException;
-import netgloo.Excecoes.DisciplinaJaCadastrada;
+import netgloo.Excecoes.*;
 import netgloo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -85,7 +82,7 @@ public class DisciplinaService {
         return disciplinaDao.search(nome, codigo, disciplinaSearchForm);
     }
 
-    public void salvarNotas(NotasDisciplina notasDisciplina) throws AlunoInvalidoException, DisciplinaInvalidaException, AlunoDisciplinaInvalidoException {
+    public boolean salvarNotas(NotasDisciplina notasDisciplina) throws AlunoInvalidoException, DisciplinaInvalidaException, AlunoDisciplinaInvalidoException, DadosInvalidaException {
         if(notasDisciplina.isValid()){
             if(alunoDao.getById(notasDisciplina.getIdAluno()) == null){
                 throw new AlunoInvalidoException("Aluno nao existe");
@@ -103,11 +100,12 @@ public class DisciplinaService {
 
 
         } else {
-            throw new AlunoDisciplinaInvalidoException("Dados inválidos");
+            throw new DadosInvalidaException("Dados inválidos");
         }
+        return true;
     }
 
-    public void desvincular(Long idDisciplina) throws DisciplinaInvalidaException {
+    public boolean desvincular(Long idDisciplina) throws DisciplinaInvalidaException {
         if (idDisciplina == null)
             throw new DisciplinaInvalidaException("Disciplina inválida");
         if(disciplinaDao.getById(idDisciplina) == null)
@@ -120,5 +118,6 @@ public class DisciplinaService {
         List<ProfessorDisciplina> professorDisciplinaList = professorDisciplinaDao.getByDisciplina(idDisciplina);
         professorDisciplinaDao.removeAll(professorDisciplinaList);
 
+        return true;
     }
 }

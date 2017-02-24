@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -400,4 +401,116 @@ public class ProfessorServiceTest {
 
         Assert.fail();
     }
+
+    @Test
+    public void matricularSuccess() throws Exception{
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(1l);
+
+        ProfessorDisciplina professorDisciplina = new ProfessorDisciplina();
+        professorDisciplina.setProfessor(new Professor());
+        professorDisciplina.setDisciplina(new Disciplina());
+
+        Mockito.when(professorDao.getById(1l)).thenReturn(new Professor());
+        Mockito.when(disciplinaDao.getById(1l)).thenReturn(new Disciplina());
+        Mockito.doNothing().when(professorDisciplinaDao).create(professorDisciplina);
+
+        Assert.assertTrue(professorService.matricular(professorDisciplinaKey));
+    }
+
+    @Test(expected = ProfessorNaoExisteException.class)
+    public void matricularProfessorInvalido() throws Exception{
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(1l);
+
+        Mockito.when(professorDao.getById(1l)).thenReturn(null);
+        professorService.matricular(professorDisciplinaKey);
+
+        Assert.fail();
+    }
+
+    @Test(expected = DisciplinaNaoExisteExeption.class)
+    public void matricularDisciplinaInvalido() throws Exception{
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(1l);
+
+        Mockito.when(disciplinaDao.getById(1l)).thenReturn(null);
+        Mockito.when(professorDao.getById(1l)).thenReturn(new Professor());
+        professorService.matricular(professorDisciplinaKey);
+
+        Assert.fail();
+    }
+
+    @Test(expected = DadosInvalidaException.class)
+    public void dadosInvalidos() throws Exception{
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(-1l);
+
+        professorService.matricular(professorDisciplinaKey);
+
+        Assert.fail();
+    }
+
+    @Test
+    public void searchSuccess() throws Exception {
+
+        ProfessorSearchForm professorSearchForm = new ProfessorSearchForm();
+        professorSearchForm.setNome("teste");
+        professorSearchForm.setDataNascimento(new Date());
+        professorSearchForm.setSexo('M');
+
+        Mockito.when(professorDao.search(true,true,
+                true,professorSearchForm)).thenReturn(new ArrayList<Professor>());
+
+        Assert.assertTrue(professorService.search(professorSearchForm).size() == 0);
+    }
+
+    @Test
+    public void desmatricularSuccess() throws Exception{
+
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(1l);
+
+        ProfessorDisciplina professorDisciplina = new ProfessorDisciplina();
+
+        Mockito.when(professorDisciplinaDao.getByProfessorDisciplina(professorDisciplinaKey)).thenReturn(professorDisciplina);
+        Mockito.doNothing().when(professorDisciplinaDao).delete(professorDisciplina);
+
+        Assert.assertTrue(professorService.desmatricular(professorDisciplinaKey));
+
+    }
+
+    @Test (expected = MatriculaNaoExisteExeption.class)
+    public void desmatricularProfessorNaoMatriculado() throws Exception{
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(1l);
+
+        ProfessorDisciplina profesorDisciplina = new ProfessorDisciplina();
+
+        Mockito.when(professorDao.getById(1l)).thenReturn(null);
+        professorService.desmatricular(professorDisciplinaKey);
+
+        Assert.fail();
+    }
+
+
+    @Test (expected = DadosInvalidaException.class)
+    public void desmatricularProfessorDadosInvalidor() throws Exception{
+
+        ProfessorDisciplinaKey professorDisciplinaKey = new ProfessorDisciplinaKey();
+        professorDisciplinaKey.setIdProfessor(1l);
+        professorDisciplinaKey.setIdDisciplina(-1l);
+
+        professorService.desmatricular(professorDisciplinaKey);
+
+        Assert.fail();
+    }
+
+
 }

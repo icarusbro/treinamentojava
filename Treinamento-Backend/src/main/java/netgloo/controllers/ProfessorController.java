@@ -82,6 +82,8 @@ public class ProfessorController {
             return e.getMessage();
         } catch (ProfessorInvalidoException e) {
             return e.getMessage();
+        } catch (DadosInvalidaException e) {
+            return  e.getMessage();
         }
     }
 
@@ -95,6 +97,8 @@ public class ProfessorController {
             return e.getMessage();
         } catch (DisciplinaInvalidaException e) {
             return e.getMessage();
+        } catch (DadosInvalidaException e) {
+            return  e.getMessage();
         }
     }
 }
