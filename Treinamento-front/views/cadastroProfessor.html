@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/ref.css" rel="stylesheet"> 
+
+<% include ./header %>
+<body ng-app="">
+    <div class="container">
+        <div class="panel panel-app">
+            <div class="panel-heading">Cadastro de Professor</div>
+                <div class="panel-body">
+                    <div class="row">
+                    <form role="form">
+                        <div class="form-group">
+                            <div class="col-lg-6">
+                                <label>Nome do Professor</label>
+                                <input id="nomeProfessor" class="form-control" maxlength="100">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Data de Nascimento</label>
+                                <input id="datanascimentoProfessor" class="form-control" type="date">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Sexo</label>
+                                <select id="sexoProfessor"  class="dropdown form-control">
+                                    <option id="Masculino">Masculino</option>
+                                    <option id="Feminino">Feminino</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>CPF</label>
+                                <input id="cpfProfessor" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg-9">
+                                <label>Email</label>
+                                <input id="emailProfessor" class="form-control" type="email">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Logradouro</label>
+                                <input id="logradouroProfessor" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Número</label>
+                                <input id="numeroProfessor" class="form-control" type="text" maxlength="100">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Bairro</label>
+                                <input id="bairroProfessor" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Cidade</label>
+                                <input id="cidadelProfessor" class="form-control" type="text">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>UF</label>
+                                <input id="ufProfessor" class="form-control" type="text" maxlength="2">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>CEP</label>
+                                <input id="cepAluno" class="form-control" type="text" maxlength="8">
+                            </div>  
+                        </div>
+                    </div>
+                <br>
+                <button type="button" class="btn btn-lg btn-primary" id="consultar" onclick="livro.cadastrarLivro()">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" id="result">
+        </div>
+    </div>
+</body>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/livro.js"></script>
+</html>

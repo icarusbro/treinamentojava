@@ -17,6 +17,15 @@ module.exports = function(app, passport) {
     .get(function (req,res) {
         res.render('cadastroRef.ejs');
     });
+
+    app.route('/cadastroAluno')
+    .get(function (req,res) {
+        res.render('cadastroAluno.html');
+    });
+    app.route('/cadastroProfessor')
+    .get(function (req,res) {
+        res.render('cadastroProfessor.html');
+    });
     
     app.route('/pesquisaByLivro')
     .get(function (req,res) {

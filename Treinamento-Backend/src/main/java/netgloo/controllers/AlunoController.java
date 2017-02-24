@@ -1,17 +1,18 @@
 package netgloo.controllers;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import netgloo.Excecoes.*;
 import netgloo.Service.AlunoService;
 import netgloo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,21 +20,20 @@ import java.util.List;
 public class AlunoController {
     @Autowired
     AlunoService servico;
-    @RequestMapping(value="/create")
+    @RequestMapping(value="/create",method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody AlunoCreateForm aluno){
+    public ResponseEntity<String> create(@RequestBody AlunoCreateForm aluno){
         try {
-            if(servico.create(aluno)){
-              return "OK";
-            }
+            servico.create(aluno);
+            return ResponseEntity.status(HttpStatus.OK).body("OK");
+
         } catch (CpfJaCadastradoException e) {
-            return e.getMessage();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         } catch (EnderecoInvalidoException e) {
-            return e.getMessage();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         } catch (AlunoInvalidoException e) {
-            return e.getMessage();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
-        return "Error";
     }
 
     @RequestMapping(value="/search")
